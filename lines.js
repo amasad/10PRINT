@@ -1,40 +1,60 @@
-/* jshint asi:true, strict:false */
+(function () {
+  /* jshint asi:true, strict:false */
 
-var GridSize = {x: 40, y: 25}
-var BoxSize = {x: 8, y: 8}
+  var GridSize = {x: 40, y: 25}
+  var BoxSize = {x: 8, y: 8}
 
-var canvas = document.getElementById("canvas")
-canvas.width = 320
-canvas.height = 200
-var context = canvas.getContext('2d')
+  var canvas = document.getElementById("canvas-lines")
+  canvas.width = 320
+  canvas.height = 200
+  var context = canvas.getContext('2d')
 
-var i = 0;
-function drawBox (opts) {
-  var x = opts.back ? opts.atX : opts.atX + BoxSize.x
-  var y = opts.atY
+  var i = 0;
+  function drawBox (opts) {
+    var x = opts.back ? opts.atX : opts.atX + BoxSize.x
+    var y = opts.atY
 
-  context.moveTo(x, y)
-  context.lineTo(
-    opts.back ? x + BoxSize.x : x - BoxSize.x
-  , y + BoxSize.y
-  )
-  context.shadowColor="black";
-  context.lineWidth = 2;
-  context.strokeStyle = "#786CDA"
-  context.stroke()
-}
-
-
-(function draw () {
-  canvas.width = canvas.width
-  for (var y = 0; y < GridSize.y; y++) {
-    for (var x = 0; x < GridSize.x; x++) {
-      drawBox({
-        atX: (x * BoxSize.x)
-      , atY: (y * BoxSize.y)
-      , back: Math.floor(Math.random() * 2) ? false : true 
-      })
-    }
+    context.moveTo(x, y)
+    context.lineTo(
+      opts.back ? x + BoxSize.x : x - BoxSize.x
+    , y + BoxSize.y
+    )
+    context.shadowColor="black";
+    context.lineWidth = 2;
+    context.strokeStyle = "#786CDA"
+    context.stroke()
   }
-  //setTimeout(draw, 500)
+
+
+  function loop (x, y) {
+    drawBox({
+      atX: (x * BoxSize.x)
+    , atY: (y * BoxSize.y)
+    , back: Math.floor(Math.random() * 2) ? false : true 
+    })
+    x++
+    if (x > 39) {
+      x = 0
+      y++
+    }
+    if (y > 24) {
+      var data = context.getImageData(0, 16, 320, 23 * 8)
+      canvas.width = canvas.width
+      context.putImageData(data, 0, 0)
+      y = 23
+    }
+    setTimeout(loop.bind(null, x, y), 10)
+  }
+
+  loop(0, 0)
+  // (function draw () {
+  //   canvas.width = canvas.width
+  //   for (var y = 0; y < GridSize.y; y++) {
+  //     for (var x = 0; x < GridSize.x; x++) {
+
+  //     }
+  //   }
+  //   //setTimeout(draw, 500)
+  // })()
+
 })()
