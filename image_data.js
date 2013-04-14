@@ -1,5 +1,5 @@
 /* jshint asi:true, strict:false */
-/* global looper:false, CharSize: true */
+/* global looper:false, CharSize:true, GridSize:true */
 (function () {
 
   var canvas = document.getElementById('canvas-image-data')
