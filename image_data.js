@@ -1,12 +1,10 @@
 /* jshint asi:true, strict:false */
-/* global looper:false */
+/* global looper:false, CharSize: true */
 (function () {
-  var GridSize = {width: 40, height: 25}
-  var CharSize = 8
 
   var canvas = document.getElementById('canvas-image-data')
-  canvas.width = 320
-  canvas.height = 200
+  canvas.width = GridSize.width * CharSize
+  canvas.height = GridSize.height * CharSize
   var context = canvas.getContext('2d')
 
   var forward  = [ [0, 0, 0, 0, 0, 0, 1, 1]

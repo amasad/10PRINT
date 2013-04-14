@@ -1,4 +1,6 @@
 /* jshint asi:true, strict:false */
+var GridSize = {width: 40, height: 25}
+var CharSize = 8
 var looper = function (canvas, draw) {
   var context = canvas.getContext('2d')
   function loop (x, y) {

@@ -1,22 +1,20 @@
 /* jshint asi:true, strict:false */
-/* global looper:false */
+/* global looper:false, CharSize: true */
 (function () {
-  var GridSize = {x: 40, y: 25}
-  var BoxSize = {x: 8, y: 8}
 
   var canvas = document.getElementById('canvas-lines')
-  canvas.width = 320
-  canvas.height = 200
+  canvas.width = GridSize.width * CharSize
+  canvas.height = GridSize.height * CharSize
   var context = canvas.getContext('2d')
 
   function draw (slash, x, y) {
-    x *= BoxSize.x
-    y *= BoxSize.y
-    x = (slash === 'forward' ? x + BoxSize.x : x) 
+    x *= CharSize
+    y *= CharSize
+    x = (slash === 'forward' ? x + CharSize : x) 
     context.moveTo(x, y)
     context.lineTo(
-      slash === 'forward' ? x - BoxSize.x : x + BoxSize.x 
-    , y + BoxSize.y
+      slash === 'forward' ? x - CharSize : x + CharSize
+    , y + CharSize
     )
     context.lineWidth = 2
     context.strokeStyle = '#786CDA'
