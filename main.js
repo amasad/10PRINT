@@ -35,10 +35,10 @@ looper(
   createImageDataDraw(
     document.getElementById('canvas-image-data'), GridSize, CharSize
   )
-);
+)
 
 looper(
   createLinesDraw(
     document.getElementById('canvas-lines'), GridSize, CharSize
   )
-);
+)
