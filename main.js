@@ -60,4 +60,19 @@ for (var x = 0; x < GridSize.width; x++) {
 var walk = createMazeWalker(
   draw.canvas, GridSize, CharSize
 )
-walk()
+
+;(function loopWalker (x, y) {
+  //if (!--fas) return;
+  if (y === -1) {
+    if (x < 39) {
+      walk(x, y, loopWalker.bind(null, ++x, y));
+    } else {
+      walk(x, y, loopWalker.bind(null, -1, ++y));
+    }
+  } else {
+    if (y < 39) {
+      walk(x, y, loopWalker.bind(null, x, ++y));
+    }
+  }
+})(0, -1);
+  
