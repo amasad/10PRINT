@@ -12,4 +12,10 @@
 , "strict": false
 , "asi": true
 , "unused": true
+, "predef": {
+    "mazeImages": false
+  , "createImageDataDraw": false
+  , "createLinesDraw": false
+  , "createMazeWalker": false
+  }
 }
