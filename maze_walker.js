@@ -6,61 +6,7 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
   var left = {left: null}
   var up = {up: null}
   var down = {down: null}
-  var image = context.getImageData(0, 0, GridSize.width * CharSize, GridSize.height * CharSize)
-
-  function generateImageData (matrix) {
-    var imageData = context.createImageData(CharSize, CharSize)
-    var dptr = 0
-    for (var y = 0; y < matrix.length; y++) {
-      var arr = matrix[y]
-      for (var x = 0; x < arr.length; x++) {
-        if (arr[x]) {
-          imageData.data[dptr + 0] = 124 // r
-          imageData.data[dptr + 1] = 112 // g
-          imageData.data[dptr + 2] = 218 // b
-          imageData.data[dptr + 3] = 255 // a
-        }
-        dptr += 4
-      }
-    }
-    return imageData
-  }
-
-  var forwardUp = generateImageData([ [0, 0, 1, 0, 0, 0, 1, 1]
-                                    , [0, 1, 1, 1, 0, 1, 1, 1]
-                                    , [0, 0, 1, 0, 1, 1, 1, 0]
-                                    , [0, 0, 0, 1, 1, 1, 0, 0]
-                                    , [0, 0, 1, 1, 1, 0, 0, 0]
-                                    , [0, 1, 1, 1, 0, 0, 0, 0]
-                                    , [1, 1, 1, 0, 0, 0, 0, 0]
-                                    , [1, 1, 0, 0, 0, 0, 0, 0] ])
-
-  var forwardDown = generateImageData([ [0, 0, 0, 0, 0, 0, 1, 1]
-                                      , [0, 0, 0, 0, 0, 1, 1, 1]
-                                      , [0, 0, 0, 0, 1, 1, 1, 0]
-                                      , [0, 0, 0, 1, 1, 1, 0, 0]
-                                      , [0, 0, 1, 1, 1, 0, 1, 0]
-                                      , [0, 1, 1, 1, 0, 1, 1, 1]
-                                      , [1, 1, 1, 0, 0, 0, 1, 0]
-                                      , [1, 1, 0, 0, 0, 0, 0, 0] ])
-
-  var backwardUp = generateImageData([ [1, 1, 0, 0, 0, 1, 0, 0]
-                                     , [1, 1, 1, 0, 1, 1, 1, 0]
-                                     , [0, 1, 1, 1, 0, 1, 0, 0]
-                                     , [0, 0, 1, 1, 1, 0, 0, 0]
-                                     , [0, 0, 0, 1, 1, 1, 0, 0]
-                                     , [0, 0, 0, 0, 1, 1, 1, 0]
-                                     , [0, 0, 0, 0, 0, 1, 1, 1]
-                                     , [0, 0, 0, 0, 0, 0, 1, 1] ])
-
-  var backwardDown = generateImageData([ [1, 1, 0, 0, 0, 0, 0, 0]
-                                       , [1, 1, 1, 0, 0, 0, 0, 0]
-                                       , [0, 1, 1, 1, 0, 0, 0, 0]
-                                       , [0, 0, 1, 1, 1, 0, 0, 0]
-                                       , [0, 1, 0, 1, 1, 1, 0, 0]
-                                       , [1, 1, 1, 0, 1, 1, 1, 0]
-                                       , [0, 1, 0, 0, 0, 1, 1, 1]
-                                       , [0, 0, 0, 0, 0, 0, 1, 1] ])
+  //var image = context.getImageData(0, 0, GridSize.width * CharSize, GridSize.height * CharSize)
 
   function getChar (x, y) {
     var imageData = context.getImageData(x * CharSize, y * CharSize, CharSize, CharSize)
@@ -71,16 +17,16 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
     var imageData;
     if (ch === 'forward') {
       if (dir === right || dir === down) {
-        imageData = forwardUp
+        imageData = mazeImages.walker.forwardUp
       } else {
-        imageData = forwardDown
+        imageData = mazeImages.walker.forwardDown
       }
     }
     if (ch === 'backward') {
       if (dir === down || dir === left) {
-        imageData = backwardUp
+        imageData = mazeImages.walker.backwardUp
       } else {
-        imageData = backwardDown
+        imageData = mazeImages.walker.backwardDown
       }
     }
     //canvas.width = canvas.width
