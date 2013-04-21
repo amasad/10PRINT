@@ -6,6 +6,8 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
   var down = {down: null}
 
   function createWalker (done) {
+    
+    var resetWalker = function  () { /* noop */ }
 
     function and (data1, data2) {
       var ret = context.createImageData(CharSize, CharSize)
@@ -39,6 +41,9 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
         }
       }
       var currImage = context.getImageData(x * CharSize, y * CharSize, CharSize, CharSize)
+      resetWalker = function () {
+        context.putImageData(currImage, x * CharSize, y * CharSize)
+      }
       imageData = and(imageData, currImage)
       context.putImageData(imageData, x * CharSize, y * CharSize)
     }
@@ -64,6 +69,7 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
       if (!(x > -1 && x < GridSize.width && y > -1 && y < GridSize.height)) return done();
       var ch = getChar(x, y);
 
+      resetWalker()
       drawWalker(x, y, ch, dir)
       if (ch === 'forward') {
         switch (dir) {
