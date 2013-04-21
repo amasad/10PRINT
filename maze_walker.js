@@ -9,7 +9,14 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
     
     var resetWalker = function  () { /* noop */ }
 
+    var putWalker = function (image, walkerPos) {
+      var pixelite = new Pixelite(image).clone()
+      pixelite.select(walkerPos).rgba(0, 128, 255, 255)
+      return pixelite
+    }
+
     function and (data1, data2) {
+
       var ret = context.createImageData(CharSize, CharSize)
       var arr1 = data1.data
       var arr2 = data2.data
@@ -28,24 +35,26 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
       var imageData;
       if (ch === 'forward') {
         if (dir === right || dir === down) {
-          imageData = mazeImages.walker.forwardUp
+          imageData = walkerSelectors.forwardUp
         } else {
-          imageData = mazeImages.walker.forwardDown
+          imageData = walkerSelectors.forwardDown
         }
       }
       if (ch === 'backward') {
         if (dir === down || dir === left) {
-          imageData = mazeImages.walker.backwardUp
+          imageData = walkerSelectors.backwardUp
         } else {
-          imageData = mazeImages.walker.backwardDown
+          imageData = walkerSelectors.backwardDown
         }
       }
       var currImage = context.getImageData(x * CharSize, y * CharSize, CharSize, CharSize)
       resetWalker = function () {
         context.putImageData(currImage, x * CharSize, y * CharSize)
       }
-      imageData = and(imageData, currImage)
-      context.putImageData(imageData, x * CharSize, y * CharSize)
+      // imageData = and(imageData, currImage)
+      imageData = putWalker(currImage, imageData)
+      //colorWalker(imageData)
+      context.putImageData(imageData.imageData, x * CharSize, y * CharSize)
     }
 
     return function walk (x, y, dir) {

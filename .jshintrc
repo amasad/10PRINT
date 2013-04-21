@@ -17,5 +17,6 @@
   , "createImageDataDraw": false
   , "createLinesDraw": false
   , "createMazeWalker": false
+  , "walkerSelectors": false
   }
 }
