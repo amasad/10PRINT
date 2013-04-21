@@ -1,5 +1,3 @@
-/* jshint asi:true, strict:false */
-/* global looper:false, CharSize:true, GridSize:true */
 this.createLinesDraw = function (canvas, GridSize, CharSize) {
   canvas.width = GridSize.width * CharSize
   canvas.height = GridSize.height * CharSize
