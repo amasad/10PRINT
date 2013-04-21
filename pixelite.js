@@ -62,7 +62,8 @@ Pixelite.prototype.clone = function () {
   return new Pixelite(ret)
 }
 
-function PixeliteCollection (pixels) {
+function PixeliteCollection (parent, pixels) {
+  this.parent = parent
   this.pixels = pixels || []
 }
 
@@ -78,11 +79,15 @@ PixeliteCollection.prototype.rgba = function () {
   for (var i = 0, pixel; pixel = this.pixels[i]; i++) {
     pixel.rgba.apply(pixel, arguments)
   }
+  return this
 }
 
+PixeliteCollection.prototype.end = function () {
+  return this.parent;
+}
 
 Pixelite.prototype.select = function (matrix) {
-  var ret = new PixeliteCollection()
+  var ret = new PixeliteCollection(this)
   for (var y = 0, arr; arr = matrix[y]; y++) {
     for (var x = 0, l = arr.length; x < l; x++) {
       if (arr[x]) ret.push(this.at(x, y))

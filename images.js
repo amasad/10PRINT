@@ -1,44 +1,27 @@
 (function () {
 
-  var canvas = document.createElement('canvas')
-  var context = canvas.getContext('2d')
-
   function generate (matrix) {
-    var imageData = context.createImageData(8, 8)
-    var dptr = 0
-    for (var y = 0; y < matrix.length; y++) {
-      var arr = matrix[y]
-      for (var x = 0; x < arr.length; x++) {
-        if (arr[x] === 1) {
-          imageData.data[dptr + 0] = 124 // r
-          imageData.data[dptr + 1] = 112 // g
-          imageData.data[dptr + 2] = 218 // b
-          imageData.data[dptr + 3] = 255 // a
-        }
-        dptr += 4
-      }
-    }
-    return imageData
+    return new Pixelite(8, 8).select(matrix).rgba(124, 112, 218, 255).end().imageData
   }
 
   this.mazeImages = {
-    forward:        generate([ [0, 0, 0, 0, 0, 0, 1, 1]
-                             , [0, 0, 0, 0, 0, 1, 1, 1]
-                             , [0, 0, 0, 0, 1, 1, 1, 0]
-                             , [0, 0, 0, 1, 1, 1, 0, 0]
-                             , [0, 0, 1, 1, 1, 0, 0, 0]
-                             , [0, 1, 1, 1, 0, 0, 0, 0]
-                             , [1, 1, 1, 0, 0, 0, 0, 0]
-                             , [1, 1, 0, 0, 0, 0, 0, 0] ])
+    forward:  generate([ [0, 0, 0, 0, 0, 0, 1, 1]
+                       , [0, 0, 0, 0, 0, 1, 1, 1]
+                       , [0, 0, 0, 0, 1, 1, 1, 0]
+                       , [0, 0, 0, 1, 1, 1, 0, 0]
+                       , [0, 0, 1, 1, 1, 0, 0, 0]
+                       , [0, 1, 1, 1, 0, 0, 0, 0]
+                       , [1, 1, 1, 0, 0, 0, 0, 0]
+                       , [1, 1, 0, 0, 0, 0, 0, 0] ])
  
-  , backward:       generate([ [1, 1, 0, 0, 0, 0, 0, 0]
-                             , [1, 1, 1, 0, 0, 0, 0, 0]
-                             , [0, 1, 1, 1, 0, 0, 0, 0]
-                             , [0, 0, 1, 1, 1, 0, 0, 0]
-                             , [0, 0, 0, 1, 1, 1, 0, 0]
-                             , [0, 0, 0, 0, 1, 1, 1, 0]
-                             , [0, 0, 0, 0, 0, 1, 1, 1]
-                             , [0, 0, 0, 0, 0, 0, 1, 1] ])
+  , backward: generate([ [1, 1, 0, 0, 0, 0, 0, 0]
+                       , [1, 1, 1, 0, 0, 0, 0, 0]
+                       , [0, 1, 1, 1, 0, 0, 0, 0]
+                       , [0, 0, 1, 1, 1, 0, 0, 0]
+                       , [0, 0, 0, 1, 1, 1, 0, 0]
+                       , [0, 0, 0, 0, 1, 1, 1, 0]
+                       , [0, 0, 0, 0, 0, 1, 1, 1]
+                       , [0, 0, 0, 0, 0, 0, 1, 1] ])
   }
 
   this.walkerSelectors = {
