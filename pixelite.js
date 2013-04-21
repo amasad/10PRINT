@@ -67,13 +67,11 @@ function PixeliteCollection (parent, pixels) {
   this.pixels = pixels || []
 }
 
-PixeliteCollection.prototype.push = function () {
-  return this.pixels.push.apply(this.pixels, arguments)
-}
-
-PixeliteCollection.prototype.pop = function () {
-  return this.pixels.pop.apply(this.pixels, arguments)
-}
+['push', 'pop', 'slice', 'splice', 'shift', 'unshift'].forEach(function (method) {
+  PixeliteCollection.prototype[method] = function () {
+    return this.pixels[method].apply(this.pixels, arguments)
+  }
+})
 
 PixeliteCollection.prototype.rgba = function () {
   for (var i = 0, pixel; pixel = this.pixels[i]; i++) {
