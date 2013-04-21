@@ -38,7 +38,7 @@
           imageData.data[dptr + 2] = 218 // b
           imageData.data[dptr + 3] = 255 // a
         }
-        dptr += 4;
+        dptr += 4
       }
     }
     return imageData
@@ -55,6 +55,6 @@
     draw(
       slash === 'forward' ? forwslash : backslash, x, y
     )
-  });
+  })
 
 })()
