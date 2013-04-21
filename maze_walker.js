@@ -5,8 +5,13 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
   var up = {up: null}
   var down = {down: null}
 
-  function createWalker (done) {
-    var resetWalker = function  () { /* noop */ }
+  function createWalker (cb, startX, startY) {
+    var winningTrail = function () { /* noop */ }
+    var done = function (won) { 
+      if (won) winningTrail()
+      cb() 
+    }
+    var resetWalker = function () { /* noop */ }
 
     function putWalker (image, walkerPos) {
       var pixelite = new Pixelite(image).clone()
@@ -20,27 +25,40 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
     }
 
     function drawWalker (x, y, ch, dir) {
-      var imageData;
+      var selector;
       if (ch === 'forward') {
         if (dir === right || dir === down) {
-          imageData = walkerSelectors.forwardUp
+          selector = walkerSelectors.forwardUp
         } else {
-          imageData = walkerSelectors.forwardDown
+          selector = walkerSelectors.forwardDown
         }
-      }
-      if (ch === 'backward') {
+      } else if (ch === 'backward') {
         if (dir === down || dir === left) {
-          imageData = walkerSelectors.backwardUp
+          selector = walkerSelectors.backwardUp
         } else {
-          imageData = walkerSelectors.backwardDown
+          selector = walkerSelectors.backwardDown
         }
       }
       var currImage = context.getImageData(x * CharSize, y * CharSize, CharSize, CharSize)
       resetWalker = function () {
         context.putImageData(currImage, x * CharSize, y * CharSize)
       }
-      imageData = putWalker(currImage, imageData)
-      context.putImageData(imageData.imageData, x * CharSize, y * CharSize)
+      var pixelite = putWalker(currImage, selector)
+      done = function (won) {
+        pixelite.select(selector).rgba(255, 0, 0, 255)
+        context.putImageData(pixelite.imageData, x * CharSize, y * CharSize)
+        if (won) winningTrail()
+        cb()
+      }
+      winningTrail = (function () {
+        var _fn = winningTrail
+        return function () {
+          pixelite.select(selector).rgba(0, 255, 0, 255)
+          context.putImageData(pixelite.imageData, x * CharSize, y * CharSize)
+          _fn()
+        }
+      })()
+      context.putImageData(pixelite.imageData, x * CharSize, y * CharSize)
     }
 
     return function walk (x, y, dir) {
@@ -61,7 +79,11 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
           throw new Error('invalid dir')
       }
 
-      if (!(x > -1 && x < GridSize.width && y > -1 && y < GridSize.height)) return done();
+      if (!(x > -1 && x < GridSize.width && y > -1 && y < GridSize.height)) {
+        return done(
+          startX === -1 && x >= GridSize.width || startY === -1 && y >= GridSize.height
+        )
+      }
       var ch = getChar(x, y);
 
       resetWalker()
@@ -101,12 +123,12 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
             throw new Error('invalid prev dir')
         }
       }
-      setTimeout(walk.bind(null, x, y, dir), 100);
+      setTimeout(walk.bind(null, x, y, dir), 0);
     }
   }
 
   return function (x, y, cb) {
-    createWalker(cb)(x, y, x === -1 ? right : down)
+    createWalker(cb, x, y)(x, y, x === -1 ? right : down)
   }
 
 };
