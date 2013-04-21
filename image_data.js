@@ -3,12 +3,9 @@ this.createImageDataDraw = function (canvas, GridSize, CharSize) {
   canvas.height = GridSize.height * CharSize
   var context = canvas.getContext('2d')
 
-  var backslash = mazeImages.backward
-  var forwslash = mazeImages.forward
-
   function draw (slash, x, y) {
     context.putImageData(
-      slash === 'forward' ? forwslash : backslash
+      slash === 'forward' ? mazeImages.forward : mazeImages.backward
     , x * CharSize, y * CharSize
     )
   }
