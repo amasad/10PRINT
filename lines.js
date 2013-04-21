@@ -1,8 +1,6 @@
 /* jshint asi:true, strict:false */
 /* global looper:false, CharSize:true, GridSize:true */
-(function () {
-
-  var canvas = document.getElementById('canvas-lines')
+this.createLinesDraw = function (canvas, GridSize, CharSize) {
   canvas.width = GridSize.width * CharSize
   canvas.height = GridSize.height * CharSize
   var context = canvas.getContext('2d')
@@ -21,6 +19,6 @@
     context.stroke()
   }
 
-  looper(canvas, draw)
-
-})()
+  draw.canvas = canvas
+  return draw
+}

@@ -1,8 +1,6 @@
 /* jshint asi:true, strict:false */
 /* global looper:false, CharSize:true, GridSize:true */
-(function () {
-
-  var canvas = document.getElementById('canvas-image-data')
+this.createImageDataDraw = function (canvas, GridSize, CharSize) {
   canvas.width = GridSize.width * CharSize
   canvas.height = GridSize.height * CharSize
   var context = canvas.getContext('2d')
@@ -47,14 +45,13 @@
   var backslash = generateImageData(true)
   var forwslash = generateImageData(false)
 
-  function draw (data, x, y) {
-    context.putImageData(data, x * CharSize, y * CharSize)
+  function draw (slash, x, y) {
+    context.putImageData(
+      slash === 'forward' ? forwslash : backslash
+    , x * CharSize, y * CharSize
+    )
   }
 
-  looper(canvas, function (slash, x, y) {
-    draw(
-      slash === 'forward' ? forwslash : backslash, x, y
-    )
-  })
-
-})()
+  draw.canvas = canvas
+  return draw
+}

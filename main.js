@@ -3,7 +3,8 @@ var GridSize = {width: 40, height: 25}
 var CharSize = 8
 var LinesToScroll = 2
 var Delay = 10
-var looper = function (canvas, draw) {
+var looper = function (draw) {
+  var canvas = draw.canvas;
   var context = canvas.getContext('2d')
   function loop (x, y) {
     draw(
@@ -29,3 +30,15 @@ var looper = function (canvas, draw) {
   }
   loop(0, 0)
 }
+
+looper(
+  createImageDataDraw(
+    document.getElementById('canvas-image-data'), GridSize, CharSize
+  )
+);
+
+looper(
+  createLinesDraw(
+    document.getElementById('canvas-lines'), GridSize, CharSize
+  )
+);
