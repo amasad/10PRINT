@@ -123,7 +123,7 @@ this.createMazeWalker = function (canvas, GridSize, CharSize) {
             throw new Error('invalid prev dir')
         }
       }
-      setTimeout(walk.bind(null, x, y, dir), 0);
+      setTimeout(walk.bind(null, x, y, dir), 50);
     }
   }
 
